@@ -1,0 +1,435 @@
+[
+    {
+        "id": "34bd7951aa9c862e",
+        "type": "tab",
+        "label": "#Geolocation",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "a8316a1dbe657a9a",
+        "type": "mqtt in",
+        "z": "34bd7951aa9c862e",
+        "name": "Geo-iphone",
+        "topic": "Geoloc-iphone",
+        "qos": "1",
+        "datatype": "json",
+        "broker": "57ef50dc0634de67",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 130,
+        "y": 200,
+        "wires": [
+            [
+                "237867c813c8fbed"
+            ]
+        ]
+    },
+    {
+        "id": "df30284667b6c7b0",
+        "type": "debug",
+        "z": "34bd7951aa9c862e",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1090,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "a24d19f88eb4791b",
+        "type": "change",
+        "z": "34bd7951aa9c862e",
+        "name": "get lat,lon",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{    \"lat\": msg.payload.lat,    \"lon\": msg.payload.lon}",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 500,
+        "y": 200,
+        "wires": [
+            [
+                "75ad52d5e2c4ce2e"
+            ]
+        ]
+    },
+    {
+        "id": "4b64060338a9e5d8",
+        "type": "function",
+        "z": "34bd7951aa9c862e",
+        "name": "Get phone geo",
+        "func": "msg.payload = [\n    {\n        lat: msg.payload.lat,\n        lon: msg.payload.lon,\n        inarea: msg.location.inarea\n    \n    }\n]\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 860,
+        "y": 200,
+        "wires": [
+            [
+                "df30284667b6c7b0"
+            ]
+        ]
+    },
+    {
+        "id": "75ad52d5e2c4ce2e",
+        "type": "geofence",
+        "z": "34bd7951aa9c862e",
+        "name": "Hostel Room",
+        "mode": "polyline",
+        "inside": "both",
+        "rad": 0,
+        "points": [
+            {
+                "latitude": 2.249524307147133,
+                "longitude": 102.27829456329346
+            },
+            {
+                "latitude": 2.249934620079204,
+                "longitude": 102.27829456329346
+            },
+            {
+                "latitude": 2.249934620079204,
+                "longitude": 102.27849874645472
+            },
+            {
+                "latitude": 2.249524307147133,
+                "longitude": 102.27849874645472
+            }
+        ],
+        "centre": {},
+        "floor": "",
+        "ceiling": "",
+        "worldmap": false,
+        "outputs": 1,
+        "x": 670,
+        "y": 200,
+        "wires": [
+            [
+                "4b64060338a9e5d8",
+                "750d71ea88b241f3"
+            ]
+        ]
+    },
+    {
+        "id": "e77e5b889376f56d",
+        "type": "pushover api",
+        "z": "34bd7951aa9c862e",
+        "keys": "d63ca83a7292527b",
+        "title": "In area",
+        "name": "Notify",
+        "x": 1170,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "750d71ea88b241f3",
+        "type": "function",
+        "z": "34bd7951aa9c862e",
+        "name": "In area",
+        "func": "msg.payload = msg.location.inarea\n    \nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 840,
+        "y": 260,
+        "wires": [
+            [
+                "416fd8e8caacd285"
+            ]
+        ]
+    },
+    {
+        "id": "7ad33ce162efe3bb",
+        "type": "rbe",
+        "z": "34bd7951aa9c862e",
+        "name": "",
+        "func": "rbe",
+        "gap": "",
+        "start": "",
+        "inout": "out",
+        "septopics": false,
+        "property": "payload",
+        "topi": "topic",
+        "x": 1050,
+        "y": 380,
+        "wires": [
+            [
+                "e77e5b889376f56d"
+            ]
+        ]
+    },
+    {
+        "id": "cac18f9848bb6f02",
+        "type": "mqtt out",
+        "z": "34bd7951aa9c862e",
+        "name": "to camera",
+        "topic": "in-area",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "57ef50dc0634de67",
+        "x": 1280,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "347a5976498b6b6e",
+        "type": "switch",
+        "z": "34bd7951aa9c862e",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "true",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "false",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 990,
+        "y": 520,
+        "wires": [
+            [
+                "4e7ecc2ef81a7595"
+            ],
+            [
+                "fb862132bd01da60"
+            ]
+        ]
+    },
+    {
+        "id": "45a489a6e94153e4",
+        "type": "inject",
+        "z": "34bd7951aa9c862e",
+        "name": "in area = false",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "false",
+        "payloadType": "str",
+        "x": 730,
+        "y": 460,
+        "wires": [
+            [
+                "7ad33ce162efe3bb"
+            ]
+        ]
+    },
+    {
+        "id": "fb862132bd01da60",
+        "type": "mqtt out",
+        "z": "34bd7951aa9c862e",
+        "name": "OFF-RGB",
+        "topic": "rgb-off",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "57ef50dc0634de67",
+        "x": 1280,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "237867c813c8fbed",
+        "type": "owntracks",
+        "z": "34bd7951aa9c862e",
+        "x": 330,
+        "y": 200,
+        "wires": [
+            [
+                "a24d19f88eb4791b"
+            ]
+        ]
+    },
+    {
+        "id": "13c50f92cca15889",
+        "type": "change",
+        "z": "34bd7951aa9c862e",
+        "name": "str true",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "true",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 880,
+        "y": 400,
+        "wires": [
+            [
+                "7ad33ce162efe3bb",
+                "347a5976498b6b6e"
+            ]
+        ]
+    },
+    {
+        "id": "416fd8e8caacd285",
+        "type": "switch",
+        "z": "34bd7951aa9c862e",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "0",
+                "vt": "num"
+            },
+            {
+                "t": "eq",
+                "v": "1",
+                "vt": "num"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 690,
+        "y": 380,
+        "wires": [
+            [
+                "c1080d01bf7a0252"
+            ],
+            [
+                "13c50f92cca15889"
+            ]
+        ]
+    },
+    {
+        "id": "c1080d01bf7a0252",
+        "type": "change",
+        "z": "34bd7951aa9c862e",
+        "name": "str false",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "false",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 880,
+        "y": 360,
+        "wires": [
+            [
+                "7ad33ce162efe3bb",
+                "347a5976498b6b6e"
+            ]
+        ]
+    },
+    {
+        "id": "4e7ecc2ef81a7595",
+        "type": "delay",
+        "z": "34bd7951aa9c862e",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 1120,
+        "y": 480,
+        "wires": [
+            [
+                "cac18f9848bb6f02"
+            ]
+        ]
+    },
+    {
+        "id": "57ef50dc0634de67",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "192.168.0.199",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "sessionExpiry": ""
+    },
+    {
+        "id": "d63ca83a7292527b",
+        "type": "pushover-keys",
+        "name": "Iphone"
+    }
+]

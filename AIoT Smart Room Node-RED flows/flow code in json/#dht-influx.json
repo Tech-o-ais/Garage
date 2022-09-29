@@ -1,0 +1,383 @@
+[
+    {
+        "id": "58eb867d.5ffa58",
+        "type": "tab",
+        "label": "#dht-influx",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "5243a495.1164fc",
+        "type": "mqtt in",
+        "z": "58eb867d.5ffa58",
+        "name": "Humidity",
+        "topic": "home/humidity",
+        "qos": "2",
+        "datatype": "json",
+        "broker": "ac71ed5f.d2987",
+        "nl": false,
+        "rap": false,
+        "inputs": 0,
+        "x": 120,
+        "y": 200,
+        "wires": [
+            [
+                "19138cd9.05e353",
+                "39cf3af9.cd1da6",
+                "9673a4bab0dc1241"
+            ]
+        ]
+    },
+    {
+        "id": "85651873.adb488",
+        "type": "mqtt in",
+        "z": "58eb867d.5ffa58",
+        "name": "Temperature",
+        "topic": "home/temperature",
+        "qos": "2",
+        "datatype": "json",
+        "broker": "ac71ed5f.d2987",
+        "nl": false,
+        "rap": false,
+        "inputs": 0,
+        "x": 130,
+        "y": 260,
+        "wires": [
+            [
+                "19138cd9.05e353",
+                "dfc2a086.202cf",
+                "82299036147e18f9"
+            ]
+        ]
+    },
+    {
+        "id": "19138cd9.05e353",
+        "type": "debug",
+        "z": "58eb867d.5ffa58",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 770,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "dfc2a086.202cf",
+        "type": "function",
+        "z": "58eb867d.5ffa58",
+        "name": "Temp",
+        "func": "msg.payload = [\n    {\n        Temperature: msg.payload,\n        //Humidity: msg.payload[\"Humidity\"]\n    }\n]\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 410,
+        "y": 480,
+        "wires": [
+            [
+                "8e34eff5.fe33c",
+                "19138cd9.05e353"
+            ]
+        ]
+    },
+    {
+        "id": "8e34eff5.fe33c",
+        "type": "influxdb out",
+        "z": "58eb867d.5ffa58",
+        "influxdb": "6f37c1bf.ce544",
+        "name": "Terai-influx",
+        "measurement": "dht22",
+        "precision": "s",
+        "retentionPolicy": "",
+        "database": "aiot",
+        "precisionV18FluxV20": "s",
+        "retentionPolicyV18Flux": "",
+        "org": "organisation",
+        "bucket": "bucket",
+        "x": 770,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "39cf3af9.cd1da6",
+        "type": "function",
+        "z": "58eb867d.5ffa58",
+        "name": "Hum",
+        "func": "msg.payload = [\n    {\n        //Temperature: msg.payload,\n        Humidity: msg.payload\n    }\n]\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 410,
+        "y": 540,
+        "wires": [
+            [
+                "8e34eff5.fe33c",
+                "19138cd9.05e353"
+            ]
+        ]
+    },
+    {
+        "id": "d18bd279.0b95d",
+        "type": "comment",
+        "z": "58eb867d.5ffa58",
+        "name": "Data from ESP8266 via MQTT",
+        "info": "",
+        "x": 140,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "88308544.c96508",
+        "type": "comment",
+        "z": "58eb867d.5ffa58",
+        "name": "convert JSON object from sensors to be readable by InfluxDB",
+        "info": "",
+        "x": 400,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "c93fc0f9.983d6",
+        "type": "comment",
+        "z": "58eb867d.5ffa58",
+        "name": "Data stored in InfluxDB",
+        "info": "",
+        "x": 760,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "c022654fd9d3d602",
+        "type": "pushover api",
+        "z": "58eb867d.5ffa58",
+        "keys": "d63ca83a7292527b",
+        "title": "Appliances Status",
+        "name": "Notify",
+        "x": 1030,
+        "y": 760,
+        "wires": []
+    },
+    {
+        "id": "82299036147e18f9",
+        "type": "switch",
+        "z": "58eb867d.5ffa58",
+        "name": "AC switch",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "gte",
+                "v": "20.00",
+                "vt": "num"
+            },
+            {
+                "t": "lt",
+                "v": "20.00",
+                "vt": "num"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 320,
+        "y": 720,
+        "wires": [
+            [
+                "79e93c32d91d6e6c"
+            ],
+            [
+                "fa22829d446bc84f"
+            ]
+        ]
+    },
+    {
+        "id": "eebd5959b92196f5",
+        "type": "function",
+        "z": "58eb867d.5ffa58",
+        "name": "HMD ON",
+        "func": "msg.payload = \"Humidifier : ON\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 520,
+        "y": 800,
+        "wires": [
+            [
+                "ef667e868df5b5ec"
+            ]
+        ]
+    },
+    {
+        "id": "80b113f577b939f6",
+        "type": "function",
+        "z": "58eb867d.5ffa58",
+        "name": "HMD OFF",
+        "func": "msg.payload = \"Humidifier : OFF\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 530,
+        "y": 860,
+        "wires": [
+            [
+                "ef667e868df5b5ec"
+            ]
+        ]
+    },
+    {
+        "id": "79e93c32d91d6e6c",
+        "type": "function",
+        "z": "58eb867d.5ffa58",
+        "name": "AC OFF",
+        "func": "msg.payload = \"Air conditioner : OFF\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 520,
+        "y": 700,
+        "wires": [
+            [
+                "ef667e868df5b5ec"
+            ]
+        ]
+    },
+    {
+        "id": "fa22829d446bc84f",
+        "type": "function",
+        "z": "58eb867d.5ffa58",
+        "name": "AC ON",
+        "func": "msg.payload = \"Air conditioner : ON\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 520,
+        "y": 740,
+        "wires": [
+            [
+                "ef667e868df5b5ec"
+            ]
+        ]
+    },
+    {
+        "id": "9673a4bab0dc1241",
+        "type": "switch",
+        "z": "58eb867d.5ffa58",
+        "name": "HMD switch",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "lt",
+                "v": "74.00",
+                "vt": "num"
+            },
+            {
+                "t": "gte",
+                "v": "74.00",
+                "vt": "num"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 330,
+        "y": 820,
+        "wires": [
+            [
+                "eebd5959b92196f5"
+            ],
+            [
+                "80b113f577b939f6"
+            ]
+        ]
+    },
+    {
+        "id": "ef667e868df5b5ec",
+        "type": "rbe",
+        "z": "58eb867d.5ffa58",
+        "name": "",
+        "func": "rbe",
+        "gap": "",
+        "start": "",
+        "inout": "out",
+        "septopics": true,
+        "property": "payload",
+        "topi": "topic",
+        "x": 790,
+        "y": 760,
+        "wires": [
+            [
+                "c022654fd9d3d602"
+            ]
+        ]
+    },
+    {
+        "id": "6325f35005685079",
+        "type": "comment",
+        "z": "58eb867d.5ffa58",
+        "name": "if value unchanged, means no new notification",
+        "info": "",
+        "x": 830,
+        "y": 700,
+        "wires": []
+    },
+    {
+        "id": "ac71ed5f.d2987",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "mosquitto",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "compatmode": false,
+        "protocolVersion": 4,
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": ""
+    },
+    {
+        "id": "6f37c1bf.ce544",
+        "type": "influxdb",
+        "hostname": "influxdb",
+        "port": "8086",
+        "protocol": "http",
+        "database": "aiot",
+        "name": "aiot",
+        "usetls": false,
+        "tls": "",
+        "influxdbVersion": "1.x",
+        "url": "192.168.0.199:8086",
+        "rejectUnauthorized": true
+    },
+    {
+        "id": "d63ca83a7292527b",
+        "type": "pushover-keys",
+        "name": "Iphone"
+    }
+]

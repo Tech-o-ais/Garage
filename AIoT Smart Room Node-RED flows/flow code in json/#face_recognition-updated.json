@@ -1,0 +1,1364 @@
+[
+    {
+        "id": "58eb867d.5ffa58",
+        "type": "tab",
+        "label": "#dht-influx",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "34bd7951aa9c862e",
+        "type": "tab",
+        "label": "#Geolocation",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "9eb4687a57250ac9",
+        "type": "tab",
+        "label": "#face_recognition",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "c3d4a7de11d2ecba",
+        "type": "tab",
+        "label": "just-geo",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "57ef50dc0634de67",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "192.168.0.199",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "sessionExpiry": ""
+    },
+    {
+        "id": "ac71ed5f.d2987",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "mosquitto",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "compatmode": false,
+        "protocolVersion": 4,
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": ""
+    },
+    {
+        "id": "7d967288.46ed2c",
+        "type": "ui_group",
+        "name": "DHT 22",
+        "tab": "d7e8cf8c.00155",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false
+    },
+    {
+        "id": "5bafe260.57f61c",
+        "type": "ui_group",
+        "name": "Line Chart",
+        "tab": "d7e8cf8c.00155",
+        "order": 2,
+        "disp": true,
+        "width": "20",
+        "collapse": false
+    },
+    {
+        "id": "6f37c1bf.ce544",
+        "type": "influxdb",
+        "hostname": "influxdb",
+        "port": "8086",
+        "protocol": "http",
+        "database": "aiot",
+        "name": "aiot",
+        "usetls": false,
+        "tls": "",
+        "influxdbVersion": "1.x",
+        "url": "192.168.0.199:8086",
+        "rejectUnauthorized": true
+    },
+    {
+        "id": "d63ca83a7292527b",
+        "type": "pushover-keys",
+        "name": "Iphone"
+    },
+    {
+        "id": "d7e8cf8c.00155",
+        "type": "ui_tab",
+        "name": "Room",
+        "icon": "dashboard",
+        "order": 1,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "2b36032f6a16b4fe",
+        "type": "ui_base",
+        "theme": {
+            "name": "theme-light",
+            "lightTheme": {
+                "default": "#0094CE",
+                "baseColor": "#0094CE",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": false
+            },
+            "darkTheme": {
+                "default": "#097479",
+                "baseColor": "#097479",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": false
+            },
+            "customTheme": {
+                "name": "Untitled Theme 1",
+                "default": "#4B7930",
+                "baseColor": "#4B7930",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+            },
+            "themeState": {
+                "base-color": {
+                    "default": "#0094CE",
+                    "value": "#0094CE",
+                    "edited": false
+                },
+                "page-titlebar-backgroundColor": {
+                    "value": "#0094CE",
+                    "edited": false
+                },
+                "page-backgroundColor": {
+                    "value": "#fafafa",
+                    "edited": false
+                },
+                "page-sidebar-backgroundColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "group-textColor": {
+                    "value": "#1bbfff",
+                    "edited": false
+                },
+                "group-borderColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "group-backgroundColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "widget-textColor": {
+                    "value": "#111111",
+                    "edited": false
+                },
+                "widget-backgroundColor": {
+                    "value": "#0094ce",
+                    "edited": false
+                },
+                "widget-borderColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "base-font": {
+                    "value": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+                }
+            },
+            "angularTheme": {
+                "primary": "indigo",
+                "accents": "blue",
+                "warn": "red",
+                "background": "grey",
+                "palette": "light"
+            }
+        },
+        "site": {
+            "name": "Node-RED Dashboard",
+            "hideToolbar": "false",
+            "allowSwipe": "false",
+            "lockMenu": "false",
+            "allowTempTheme": "true",
+            "dateFormat": "DD/MM/YYYY",
+            "sizes": {
+                "sx": 48,
+                "sy": 48,
+                "gx": 6,
+                "gy": 6,
+                "cx": 6,
+                "cy": 6,
+                "px": 0,
+                "py": 0
+            }
+        }
+    },
+    {
+        "id": "a9454a18ec66114d",
+        "type": "telegram bot",
+        "botname": "Suitchi",
+        "usernames": "",
+        "chatids": "",
+        "baseapiurl": "",
+        "updatemode": "polling",
+        "pollinterval": "100",
+        "usesocks": false,
+        "sockshost": "",
+        "socksport": "6667",
+        "socksusername": "anonymous",
+        "sockspassword": "",
+        "bothost": "",
+        "botpath": "",
+        "localbotport": "8443",
+        "publicbotport": "8443",
+        "privatekey": "",
+        "certificate": "",
+        "useselfsignedcertificate": false,
+        "sslterminated": false,
+        "verboselogging": false
+    },
+    {
+        "id": "f6d6471845713889",
+        "type": "telegrambot-config",
+        "botname": "Suitchi",
+        "usernames": "",
+        "chatIds": "",
+        "pollInterval": "300"
+    },
+    {
+        "id": "5243a495.1164fc",
+        "type": "mqtt in",
+        "z": "58eb867d.5ffa58",
+        "name": "Humidity",
+        "topic": "home/humidity",
+        "qos": "2",
+        "datatype": "json",
+        "broker": "ac71ed5f.d2987",
+        "nl": false,
+        "rap": false,
+        "inputs": 0,
+        "x": 120,
+        "y": 200,
+        "wires": [
+            [
+                "19138cd9.05e353",
+                "39cf3af9.cd1da6",
+                "9673a4bab0dc1241"
+            ]
+        ]
+    },
+    {
+        "id": "85651873.adb488",
+        "type": "mqtt in",
+        "z": "58eb867d.5ffa58",
+        "name": "Temperature",
+        "topic": "home/temperature",
+        "qos": "2",
+        "datatype": "json",
+        "broker": "ac71ed5f.d2987",
+        "nl": false,
+        "rap": false,
+        "inputs": 0,
+        "x": 130,
+        "y": 260,
+        "wires": [
+            [
+                "19138cd9.05e353",
+                "dfc2a086.202cf",
+                "82299036147e18f9"
+            ]
+        ]
+    },
+    {
+        "id": "19138cd9.05e353",
+        "type": "debug",
+        "z": "58eb867d.5ffa58",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 770,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "dfc2a086.202cf",
+        "type": "function",
+        "z": "58eb867d.5ffa58",
+        "name": "Temp",
+        "func": "msg.payload = [\n    {\n        Temperature: msg.payload,\n        //Humidity: msg.payload[\"Humidity\"]\n    }\n]\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 410,
+        "y": 480,
+        "wires": [
+            [
+                "8e34eff5.fe33c",
+                "19138cd9.05e353"
+            ]
+        ]
+    },
+    {
+        "id": "8e34eff5.fe33c",
+        "type": "influxdb out",
+        "z": "58eb867d.5ffa58",
+        "influxdb": "6f37c1bf.ce544",
+        "name": "influx-DB",
+        "measurement": "dht22",
+        "precision": "s",
+        "retentionPolicy": "",
+        "database": "aiot",
+        "precisionV18FluxV20": "s",
+        "retentionPolicyV18Flux": "",
+        "org": "organisation",
+        "bucket": "bucket",
+        "x": 760,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "39cf3af9.cd1da6",
+        "type": "function",
+        "z": "58eb867d.5ffa58",
+        "name": "Hum",
+        "func": "msg.payload = [\n    {\n        //Temperature: msg.payload,\n        Humidity: msg.payload\n    }\n]\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 410,
+        "y": 540,
+        "wires": [
+            [
+                "8e34eff5.fe33c",
+                "19138cd9.05e353"
+            ]
+        ]
+    },
+    {
+        "id": "d18bd279.0b95d",
+        "type": "comment",
+        "z": "58eb867d.5ffa58",
+        "name": "Data from ESP8266 via MQTT",
+        "info": "",
+        "x": 140,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "88308544.c96508",
+        "type": "comment",
+        "z": "58eb867d.5ffa58",
+        "name": "convert JSON object from sensors to be readable by InfluxDB",
+        "info": "",
+        "x": 400,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "c93fc0f9.983d6",
+        "type": "comment",
+        "z": "58eb867d.5ffa58",
+        "name": "Data stored in InfluxDB",
+        "info": "",
+        "x": 760,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "c022654fd9d3d602",
+        "type": "pushover api",
+        "z": "58eb867d.5ffa58",
+        "keys": "d63ca83a7292527b",
+        "title": "Appliances Status",
+        "name": "Notify",
+        "x": 1030,
+        "y": 760,
+        "wires": []
+    },
+    {
+        "id": "82299036147e18f9",
+        "type": "switch",
+        "z": "58eb867d.5ffa58",
+        "name": "AC switch",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "gte",
+                "v": "20.00",
+                "vt": "num"
+            },
+            {
+                "t": "lt",
+                "v": "20.00",
+                "vt": "num"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 320,
+        "y": 720,
+        "wires": [
+            [
+                "fa22829d446bc84f"
+            ],
+            [
+                "79e93c32d91d6e6c"
+            ]
+        ]
+    },
+    {
+        "id": "eebd5959b92196f5",
+        "type": "function",
+        "z": "58eb867d.5ffa58",
+        "name": "HMD ON",
+        "func": "msg.payload = \"Humidifier : ON\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 520,
+        "y": 800,
+        "wires": [
+            [
+                "ef667e868df5b5ec"
+            ]
+        ]
+    },
+    {
+        "id": "80b113f577b939f6",
+        "type": "function",
+        "z": "58eb867d.5ffa58",
+        "name": "HMD OFF",
+        "func": "msg.payload = \"Humidifier : OFF\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 530,
+        "y": 860,
+        "wires": [
+            [
+                "ef667e868df5b5ec"
+            ]
+        ]
+    },
+    {
+        "id": "79e93c32d91d6e6c",
+        "type": "function",
+        "z": "58eb867d.5ffa58",
+        "name": "AC OFF",
+        "func": "msg.payload = \"Air conditioner : OFF\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 520,
+        "y": 760,
+        "wires": [
+            [
+                "ef667e868df5b5ec"
+            ]
+        ]
+    },
+    {
+        "id": "fa22829d446bc84f",
+        "type": "function",
+        "z": "58eb867d.5ffa58",
+        "name": "AC ON",
+        "func": "msg.payload = \"Air conditioner : ON\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 520,
+        "y": 700,
+        "wires": [
+            [
+                "ef667e868df5b5ec"
+            ]
+        ]
+    },
+    {
+        "id": "9673a4bab0dc1241",
+        "type": "switch",
+        "z": "58eb867d.5ffa58",
+        "name": "HMD switch",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "lt",
+                "v": "74.00",
+                "vt": "num"
+            },
+            {
+                "t": "gte",
+                "v": "74.00",
+                "vt": "num"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 330,
+        "y": 820,
+        "wires": [
+            [
+                "eebd5959b92196f5"
+            ],
+            [
+                "80b113f577b939f6"
+            ]
+        ]
+    },
+    {
+        "id": "ef667e868df5b5ec",
+        "type": "rbe",
+        "z": "58eb867d.5ffa58",
+        "name": "",
+        "func": "rbe",
+        "gap": "",
+        "start": "",
+        "inout": "out",
+        "septopics": true,
+        "property": "payload",
+        "topi": "topic",
+        "x": 790,
+        "y": 760,
+        "wires": [
+            [
+                "c022654fd9d3d602"
+            ]
+        ]
+    },
+    {
+        "id": "6325f35005685079",
+        "type": "comment",
+        "z": "58eb867d.5ffa58",
+        "name": "if value unchanged, means no new notification",
+        "info": "",
+        "x": 830,
+        "y": 700,
+        "wires": []
+    },
+    {
+        "id": "a8316a1dbe657a9a",
+        "type": "mqtt in",
+        "z": "34bd7951aa9c862e",
+        "name": "Geo-iphone",
+        "topic": "Geoloc-iphone",
+        "qos": "1",
+        "datatype": "json",
+        "broker": "57ef50dc0634de67",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 130,
+        "y": 200,
+        "wires": [
+            [
+                "237867c813c8fbed"
+            ]
+        ]
+    },
+    {
+        "id": "df30284667b6c7b0",
+        "type": "debug",
+        "z": "34bd7951aa9c862e",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1090,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "a24d19f88eb4791b",
+        "type": "change",
+        "z": "34bd7951aa9c862e",
+        "name": "get lat,lon",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{    \"lat\": msg.payload.lat,    \"lon\": msg.payload.lon}",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 500,
+        "y": 200,
+        "wires": [
+            [
+                "75ad52d5e2c4ce2e"
+            ]
+        ]
+    },
+    {
+        "id": "4b64060338a9e5d8",
+        "type": "function",
+        "z": "34bd7951aa9c862e",
+        "name": "Get phone geo",
+        "func": "msg.payload = [\n    {\n        lat: msg.payload.lat,\n        lon: msg.payload.lon,\n        inarea: msg.location.inarea\n    \n    }\n]\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 860,
+        "y": 200,
+        "wires": [
+            [
+                "df30284667b6c7b0"
+            ]
+        ]
+    },
+    {
+        "id": "75ad52d5e2c4ce2e",
+        "type": "geofence",
+        "z": "34bd7951aa9c862e",
+        "name": "Hostel Room",
+        "mode": "polyline",
+        "inside": "both",
+        "rad": 0,
+        "points": [
+            {
+                "latitude": 2.249524307147133,
+                "longitude": 102.27829456329346
+            },
+            {
+                "latitude": 2.249934620079204,
+                "longitude": 102.27829456329346
+            },
+            {
+                "latitude": 2.249934620079204,
+                "longitude": 102.27849874645472
+            },
+            {
+                "latitude": 2.249524307147133,
+                "longitude": 102.27849874645472
+            }
+        ],
+        "centre": {},
+        "floor": "",
+        "ceiling": "",
+        "worldmap": false,
+        "outputs": 1,
+        "x": 670,
+        "y": 200,
+        "wires": [
+            [
+                "4b64060338a9e5d8",
+                "750d71ea88b241f3"
+            ]
+        ]
+    },
+    {
+        "id": "e77e5b889376f56d",
+        "type": "pushover api",
+        "z": "34bd7951aa9c862e",
+        "keys": "d63ca83a7292527b",
+        "title": "In area",
+        "name": "Notify",
+        "x": 1170,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "750d71ea88b241f3",
+        "type": "function",
+        "z": "34bd7951aa9c862e",
+        "name": "In area",
+        "func": "msg.payload = msg.location.inarea\n    \nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 840,
+        "y": 260,
+        "wires": [
+            [
+                "416fd8e8caacd285"
+            ]
+        ]
+    },
+    {
+        "id": "7ad33ce162efe3bb",
+        "type": "rbe",
+        "z": "34bd7951aa9c862e",
+        "name": "",
+        "func": "rbe",
+        "gap": "",
+        "start": "",
+        "inout": "out",
+        "septopics": false,
+        "property": "payload",
+        "topi": "topic",
+        "x": 1050,
+        "y": 380,
+        "wires": [
+            [
+                "e77e5b889376f56d"
+            ]
+        ]
+    },
+    {
+        "id": "cac18f9848bb6f02",
+        "type": "mqtt out",
+        "z": "34bd7951aa9c862e",
+        "name": "to camera",
+        "topic": "in-area",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "57ef50dc0634de67",
+        "x": 1280,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "347a5976498b6b6e",
+        "type": "switch",
+        "z": "34bd7951aa9c862e",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "true",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "false",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 990,
+        "y": 520,
+        "wires": [
+            [
+                "4e7ecc2ef81a7595"
+            ],
+            [
+                "fb862132bd01da60"
+            ]
+        ]
+    },
+    {
+        "id": "45a489a6e94153e4",
+        "type": "inject",
+        "z": "34bd7951aa9c862e",
+        "name": "in area = false",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "false",
+        "payloadType": "str",
+        "x": 730,
+        "y": 460,
+        "wires": [
+            [
+                "7ad33ce162efe3bb"
+            ]
+        ]
+    },
+    {
+        "id": "fb862132bd01da60",
+        "type": "mqtt out",
+        "z": "34bd7951aa9c862e",
+        "name": "OFF-RGB",
+        "topic": "rgb-off",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "57ef50dc0634de67",
+        "x": 1280,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "237867c813c8fbed",
+        "type": "owntracks",
+        "z": "34bd7951aa9c862e",
+        "x": 330,
+        "y": 200,
+        "wires": [
+            [
+                "a24d19f88eb4791b"
+            ]
+        ]
+    },
+    {
+        "id": "13c50f92cca15889",
+        "type": "change",
+        "z": "34bd7951aa9c862e",
+        "name": "str true",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "true",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 880,
+        "y": 400,
+        "wires": [
+            [
+                "7ad33ce162efe3bb",
+                "347a5976498b6b6e"
+            ]
+        ]
+    },
+    {
+        "id": "416fd8e8caacd285",
+        "type": "switch",
+        "z": "34bd7951aa9c862e",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "0",
+                "vt": "num"
+            },
+            {
+                "t": "eq",
+                "v": "1",
+                "vt": "num"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 690,
+        "y": 380,
+        "wires": [
+            [
+                "c1080d01bf7a0252"
+            ],
+            [
+                "13c50f92cca15889"
+            ]
+        ]
+    },
+    {
+        "id": "c1080d01bf7a0252",
+        "type": "change",
+        "z": "34bd7951aa9c862e",
+        "name": "str false",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "false",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 880,
+        "y": 360,
+        "wires": [
+            [
+                "7ad33ce162efe3bb",
+                "347a5976498b6b6e"
+            ]
+        ]
+    },
+    {
+        "id": "4e7ecc2ef81a7595",
+        "type": "delay",
+        "z": "34bd7951aa9c862e",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 1120,
+        "y": 480,
+        "wires": [
+            [
+                "cac18f9848bb6f02"
+            ]
+        ]
+    },
+    {
+        "id": "7b8dbc38c2099bfd",
+        "type": "mqtt in",
+        "z": "9eb4687a57250ac9",
+        "name": "mqtt-img",
+        "topic": "testimg",
+        "qos": "2",
+        "datatype": "buffer",
+        "broker": "57ef50dc0634de67",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 100,
+        "y": 200,
+        "wires": [
+            [
+                "96fcd4fac3d7e069",
+                "7dc4bbc6f986e7ed"
+            ]
+        ]
+    },
+    {
+        "id": "7dc4bbc6f986e7ed",
+        "type": "image",
+        "z": "9eb4687a57250ac9",
+        "name": "",
+        "width": "640",
+        "data": "payload",
+        "dataType": "msg",
+        "thumbnail": false,
+        "active": true,
+        "pass": false,
+        "outputs": 0,
+        "x": 380,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "96fcd4fac3d7e069",
+        "type": "teachable machine",
+        "z": "9eb4687a57250ac9",
+        "name": "",
+        "mode": "online",
+        "modelUrl": "https://teachablemachine.withgoogle.com/models/PRp3Zs0BU/",
+        "localModel": "teachable_model",
+        "output": "all",
+        "activeThreshold": true,
+        "threshold": "90",
+        "activeMaxResults": true,
+        "maxResults": 3,
+        "passThrough": false,
+        "x": 330,
+        "y": 200,
+        "wires": [
+            [
+                "620dc5292918ecc4"
+            ]
+        ]
+    },
+    {
+        "id": "2d355db2fdc98e30",
+        "type": "wled2",
+        "z": "9eb4687a57250ac9",
+        "address": "192.168.0.111",
+        "brightness": 128,
+        "delay": 0,
+        "color1": "#000000",
+        "color2": "#ffffff",
+        "color3": "#ffffff",
+        "effect": 0,
+        "effectIntensity": 128,
+        "effectSpeed": 128,
+        "name": "Alif",
+        "palette": "0",
+        "preset": "1",
+        "state": "on",
+        "x": 1110,
+        "y": 200,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "09793a77e050ae1c",
+        "type": "function",
+        "z": "9eb4687a57250ac9",
+        "name": "Resident",
+        "func": "msg.payload = msg.payload[0].class\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 680,
+        "y": 280,
+        "wires": [
+            [
+                "01ea584f12d448ae",
+                "159c27dda554f1a4"
+            ]
+        ]
+    },
+    {
+        "id": "01ea584f12d448ae",
+        "type": "debug",
+        "z": "9eb4687a57250ac9",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 810,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "159c27dda554f1a4",
+        "type": "switch",
+        "z": "9eb4687a57250ac9",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "Alif",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "Haiqal",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "Guest",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 3,
+        "x": 910,
+        "y": 280,
+        "wires": [
+            [
+                "2d355db2fdc98e30"
+            ],
+            [
+                "c9043796a9f1d4c9"
+            ],
+            [
+                "d8254e8741a3bd41"
+            ]
+        ]
+    },
+    {
+        "id": "c9043796a9f1d4c9",
+        "type": "wled2",
+        "z": "9eb4687a57250ac9",
+        "address": "192.168.0.111",
+        "brightness": 128,
+        "delay": 0,
+        "color1": "#000000",
+        "color2": "#ffffff",
+        "color3": "#ffffff",
+        "effect": 0,
+        "effectIntensity": 128,
+        "effectSpeed": 128,
+        "name": "Haiqal",
+        "palette": "0",
+        "preset": "6",
+        "state": "on",
+        "x": 1110,
+        "y": 280,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "b609c2d6a6f0d58d",
+        "type": "mqtt in",
+        "z": "9eb4687a57250ac9",
+        "name": "OFF-RGB",
+        "topic": "rgb-off",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "57ef50dc0634de67",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 920,
+        "y": 460,
+        "wires": [
+            [
+                "4a6dd6325d44432d"
+            ]
+        ]
+    },
+    {
+        "id": "4a6dd6325d44432d",
+        "type": "wled2",
+        "z": "9eb4687a57250ac9",
+        "address": "192.168.0.111",
+        "brightness": 128,
+        "delay": 0,
+        "color1": "#ffffff",
+        "color2": "#ffffff",
+        "color3": "#ffffff",
+        "effect": 0,
+        "effectIntensity": 128,
+        "effectSpeed": 128,
+        "name": "OFF RGB",
+        "palette": "0",
+        "preset": 0,
+        "state": "off",
+        "x": 1100,
+        "y": 460,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "620dc5292918ecc4",
+        "type": "switch",
+        "z": "9eb4687a57250ac9",
+        "name": "",
+        "property": "payload[0].class",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "nempty"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 510,
+        "y": 340,
+        "wires": [
+            [
+                "09793a77e050ae1c"
+            ],
+            [
+                "560346bc9f183e58"
+            ]
+        ]
+    },
+    {
+        "id": "560346bc9f183e58",
+        "type": "function",
+        "z": "9eb4687a57250ac9",
+        "name": "guest",
+        "func": "msg.payload = \"Guest\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 670,
+        "y": 360,
+        "wires": [
+            [
+                "159c27dda554f1a4"
+            ]
+        ]
+    },
+    {
+        "id": "d8254e8741a3bd41",
+        "type": "wled2",
+        "z": "9eb4687a57250ac9",
+        "address": "192.168.0.111",
+        "brightness": 128,
+        "delay": 0,
+        "color1": "#000000",
+        "color2": "#ffffff",
+        "color3": "#ffffff",
+        "effect": 0,
+        "effectIntensity": 128,
+        "effectSpeed": 128,
+        "name": "Guest",
+        "palette": "0",
+        "preset": "7",
+        "state": "on",
+        "x": 1110,
+        "y": 360,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "8ff876fc424ab900",
+        "type": "geofence",
+        "z": "c3d4a7de11d2ecba",
+        "name": "",
+        "mode": "polyline",
+        "inside": "true",
+        "rad": 0,
+        "points": [
+            {
+                "latitude": 2.249368188867095,
+                "longitude": 102.27994948625565
+            },
+            {
+                "latitude": 2.249818452702322,
+                "longitude": 102.2805717587471
+            },
+            {
+                "latitude": 2.2509119500090393,
+                "longitude": 102.27973490953444
+            },
+            {
+                "latitude": 2.251405095584875,
+                "longitude": 102.27975636720656
+            },
+            {
+                "latitude": 2.2517520059765994,
+                "longitude": 102.27864392101765
+            },
+            {
+                "latitude": 2.2513607057895446,
+                "longitude": 102.27816112339497
+            },
+            {
+                "latitude": 2.251865074290196,
+                "longitude": 102.27667585015296
+            },
+            {
+                "latitude": 2.251333653140011,
+                "longitude": 102.27575216442347
+            },
+            {
+                "latitude": 2.2511039149846908,
+                "longitude": 102.27556005120277
+            },
+            {
+                "latitude": 2.2485845820546095,
+                "longitude": 102.27545276284218
+            },
+            {
+                "latitude": 2.2465155096289644,
+                "longitude": 102.27735176682472
+            },
+            {
+                "latitude": 2.247437480087585,
+                "longitude": 102.27907910943031
+            },
+            {
+                "latitude": 2.247619729993048,
+                "longitude": 102.2791327536106
+            },
+            {
+                "latitude": 2.247973509156348,
+                "longitude": 102.27886453270912
+            },
+            {
+                "latitude": 2.249024125560038,
+                "longitude": 102.27918639779091
+            }
+        ],
+        "centre": {},
+        "floor": "",
+        "ceiling": "",
+        "worldmap": false,
+        "outputs": 1,
+        "x": 680,
+        "y": 760,
+        "wires": [
+            []
+        ]
+    }
+]

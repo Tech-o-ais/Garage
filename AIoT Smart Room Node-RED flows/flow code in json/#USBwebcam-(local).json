@@ -1,0 +1,182 @@
+[
+    {
+        "id": "2b84e555bf2aaf2f",
+        "type": "tab",
+        "label": "#USBwebcam",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "16382655fa3835e5",
+        "type": "usbcamera",
+        "z": "2b84e555bf2aaf2f",
+        "filemode": "0",
+        "filename": "image01.jpg",
+        "filedefpath": "1",
+        "filepath": "/home/pi/Desktop/node-img",
+        "fileformat": "jpeg",
+        "resolution": "5",
+        "name": "",
+        "x": 470,
+        "y": 280,
+        "wires": [
+            [
+                "b834ce7b632c4c9e",
+                "3002303a7239b1ec"
+            ]
+        ]
+    },
+    {
+        "id": "b834ce7b632c4c9e",
+        "type": "debug",
+        "z": "2b84e555bf2aaf2f",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 690,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "eecf93ea2d53474e",
+        "type": "inject",
+        "z": "2b84e555bf2aaf2f",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 260,
+        "y": 280,
+        "wires": [
+            [
+                "16382655fa3835e5"
+            ]
+        ]
+    },
+    {
+        "id": "3002303a7239b1ec",
+        "type": "mqtt out",
+        "z": "2b84e555bf2aaf2f",
+        "name": "img-mqtt",
+        "topic": "testimg",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "5e2cee1b9154f7cb",
+        "x": 680,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "b16227bce1fbfade",
+        "type": "mqtt in",
+        "z": "2b84e555bf2aaf2f",
+        "name": "from-geo",
+        "topic": "in-area",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "5e2cee1b9154f7cb",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 120,
+        "y": 340,
+        "wires": [
+            [
+                "ec56fb543fe9afd1",
+                "97ea15cd282e3689"
+            ]
+        ]
+    },
+    {
+        "id": "ec56fb543fe9afd1",
+        "type": "debug",
+        "z": "2b84e555bf2aaf2f",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 330,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "97ea15cd282e3689",
+        "type": "switch",
+        "z": "2b84e555bf2aaf2f",
+        "name": "Only if True",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "true",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 290,
+        "y": 340,
+        "wires": [
+            [
+                "16382655fa3835e5"
+            ]
+        ]
+    },
+    {
+        "id": "5e2cee1b9154f7cb",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "192.168.0.199",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "sessionExpiry": ""
+    }
+]
