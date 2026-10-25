@@ -1,0 +1,507 @@
+<title>Sir's Dispatch Board</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one working column — reminders strip, composer, filter tabs, grouped task list; a side column holds the note thread and the Claude protocol (stacks below on phones). */
+:root {
+  --bg: #f3f5f8;
+  --surface: #ffffff;
+  --ink: #17202c;
+  --muted: #5d6878;
+  --line: #dde2ea;
+  --accent: #2346c8;
+  --accent-soft: #e4e9fb;
+  --claude: #9a4a1d;
+  --claude-soft: #f8eadf;
+  --warn: #a35a00;
+  --warn-soft: #fdf0d9;
+  --bad: #b3261e;
+  --bad-soft: #fbe3e1;
+  --good: #1f7a4a;
+  --font-display: "Bricolage Grotesque", "Avenir Next", "Segoe UI", sans-serif;
+  --font-body: "Instrument Sans", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --radius: 10px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f141b; --surface: #171e28; --ink: #e6eaf1; --muted: #98a3b4; --line: #29323f;
+    --accent: #8ea6ff; --accent-soft: #1f2a4d; --claude: #f0a879; --claude-soft: #3a2518;
+    --warn: #f2b65c; --warn-soft: #3a2a10; --bad: #ff8a80; --bad-soft: #3d1a18; --good: #6fd39c;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0f141b; --surface: #171e28; --ink: #e6eaf1; --muted: #98a3b4; --line: #29323f;
+  --accent: #8ea6ff; --accent-soft: #1f2a4d; --claude: #f0a879; --claude-soft: #3a2518;
+  --warn: #f2b65c; --warn-soft: #3a2a10; --bad: #ff8a80; --bad-soft: #3d1a18; --good: #6fd39c;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 15px; line-height: 1.5;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 24px 48px;
+}
+.wrap { max-width: 1120px; margin: 0 auto; display: grid; gap: 24px; }
+header { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 16px; }
+h1 { font-family: var(--font-display); font-size: clamp(26px, 4vw, 34px); font-weight: 700; letter-spacing: -0.01em; margin: 0; text-wrap: balance; }
+.sub { color: var(--muted); margin: 2px 0 0; }
+.stats { display: flex; flex-wrap: wrap; gap: 8px; }
+.stat { font-family: var(--font-mono); font-size: 12px; padding: 4px 10px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); color: var(--muted); font-variant-numeric: tabular-nums; }
+.stat b { color: var(--ink); font-weight: 500; }
+.stat.bad b { color: var(--bad); }
+.stat.warn b { color: var(--warn); }
+.stat.claude b { color: var(--claude); }
+.grid { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 24px; align-items: start; }
+@media (max-width: 860px) { .grid { grid-template-columns: minmax(0, 1fr); } }
+.col { display: grid; gap: 20px; min-width: 0; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 16px; min-width: 0; }
+h2 { font-family: var(--font-display); font-size: 17px; font-weight: 600; margin: 0 0 12px; }
+.label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); font-weight: 600; }
+
+/* reminders */
+.reminders { display: grid; gap: 8px; }
+.rem { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; padding: 12px 14px; border-radius: var(--radius); background: var(--warn-soft); border: 1px solid color-mix(in srgb, var(--warn) 35%, transparent); }
+.rem .t { flex: 1 1 200px; min-width: 0; font-weight: 600; }
+.rem .t small { display: block; font-weight: 400; color: var(--muted); font-family: var(--font-mono); font-size: 12px; }
+
+/* form */
+form { display: grid; gap: 12px; }
+.row { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
+.field { display: grid; gap: 4px; min-width: 0; }
+input, textarea, select, button { font: inherit; color: inherit; }
+input[type=text], input[type=datetime-local], textarea, select {
+  width: 100%; background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; min-width: 0;
+}
+textarea { resize: vertical; min-height: 60px; }
+input:focus-visible, textarea:focus-visible, select:focus-visible, button:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+#f-title { font-size: 17px; padding: 10px 12px; }
+.actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.btn { cursor: pointer; border: 1px solid var(--line); background: var(--surface); padding: 7px 14px; border-radius: 8px; font-weight: 500; }
+.btn:hover { border-color: var(--muted); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--surface); }
+.btn.primary:hover { filter: brightness(1.08); }
+.btn.sm { padding: 3px 9px; font-size: 13px; }
+.btn.danger { color: var(--bad); }
+.btn.danger.armed { background: var(--bad); color: var(--surface); border-color: var(--bad); }
+.hint { color: var(--muted); font-size: 13px; }
+
+/* tabs */
+.tabs { display: flex; flex-wrap: wrap; gap: 4px; border-bottom: 1px solid var(--line); }
+.tab { cursor: pointer; background: none; border: 0; border-bottom: 2px solid transparent; padding: 8px 12px; color: var(--muted); font-weight: 500; margin-bottom: -1px; }
+.tab[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--accent); }
+.tab .n { font-family: var(--font-mono); font-size: 12px; margin-left: 4px; }
+
+/* list */
+.group { display: grid; gap: 8px; }
+.group > .label { padding-top: 6px; display: flex; gap: 8px; align-items: baseline; }
+.group.overdue > .label { color: var(--bad); }
+.task { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 12px; align-items: start; padding: 12px 14px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); }
+.task.p-high { border-left: 3px solid var(--bad); }
+.task.done .ttl { text-decoration: line-through; color: var(--muted); }
+.check { width: 20px; height: 20px; margin-top: 2px; accent-color: var(--accent); cursor: pointer; }
+.ttl { font-weight: 600; overflow-wrap: anywhere; }
+.notes { color: var(--muted); font-size: 14px; white-space: pre-wrap; overflow-wrap: anywhere; margin-top: 2px; }
+.meta { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+.chip { font-family: var(--font-mono); font-size: 11.5px; padding: 1px 8px; border-radius: 999px; background: var(--bg); border: 1px solid var(--line); color: var(--muted); white-space: nowrap; }
+.chip.sir { background: var(--accent-soft); color: var(--accent); border-color: transparent; }
+.chip.claude { background: var(--claude-soft); color: var(--claude); border-color: transparent; }
+.chip.over { background: var(--bad-soft); color: var(--bad); border-color: transparent; }
+.chip.soon { background: var(--warn-soft); color: var(--warn); border-color: transparent; }
+.chip.doing { color: var(--good); border-color: var(--good); }
+.tools { display: flex; gap: 4px; flex-wrap: wrap; justify-content: end; }
+.empty { padding: 28px 16px; text-align: center; color: var(--muted); border: 1px dashed var(--line); border-radius: var(--radius); }
+.empty strong { display: block; color: var(--ink); font-family: var(--font-display); font-size: 17px; margin-bottom: 4px; }
+
+/* thread */
+.thread { display: grid; gap: 10px; max-height: 420px; overflow-y: auto; padding-right: 2px; margin-bottom: 12px; }
+.msg { padding: 8px 12px; border-radius: 8px; background: var(--bg); min-width: 0; }
+.msg.claude { background: var(--claude-soft); }
+.msg .who { font-family: var(--font-mono); font-size: 11.5px; color: var(--muted); display: flex; justify-content: space-between; gap: 8px; }
+.msg.claude .who b { color: var(--claude); }
+.msg.sir .who b { color: var(--accent); }
+.msg .body { white-space: pre-wrap; overflow-wrap: anywhere; }
+.msgform { display: grid; gap: 8px; }
+
+/* protocol */
+details summary { cursor: pointer; font-family: var(--font-display); font-weight: 600; font-size: 17px; }
+.proto p { margin: 10px 0; font-size: 14px; }
+pre { font-family: var(--font-mono); font-size: 12px; background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 10px; overflow-x: auto; margin: 0; line-height: 1.45; }
+code { font-family: var(--font-mono); font-size: 12.5px; }
+.notice { padding: 12px 14px; border-radius: var(--radius); background: var(--bad-soft); color: var(--bad); }
+.toast { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(20px + env(safe-area-inset-bottom, 0px)); background: var(--ink); color: var(--bg); padding: 8px 16px; border-radius: 999px; font-size: 14px; z-index: 20; }
+@media (prefers-reduced-motion: no-preference) { .task, .rem { transition: border-color .15s; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <div>
+      <h1>Dispatch Board</h1>
+      <p class="sub">Your to-dos, reminders, and the work you hand to Claude.</p>
+    </div>
+    <div class="stats" id="stats"></div>
+  </header>
+
+  <div class="notice" id="offline" hidden>This list could not reach its database. Open the page signed in to claude.ai to view and change tasks.</div>
+
+  <div class="reminders" id="reminders" aria-live="polite"></div>
+
+  <div class="grid">
+    <div class="col">
+      <section class="panel" aria-labelledby="compose-h">
+        <h2 id="compose-h">New task</h2>
+        <form id="form" autocomplete="off">
+          <input type="text" id="f-title" placeholder="What needs doing?" required maxlength="300" aria-label="Task title">
+          <textarea id="f-notes" placeholder="Details, links, context for Claude (optional)" maxlength="4000" aria-label="Notes"></textarea>
+          <div class="row">
+            <label class="field"><span class="label">Assigned to</span>
+              <select id="f-assignee"><option value="sir">Sir</option><option value="claude">Claude</option></select></label>
+            <label class="field"><span class="label">Priority</span>
+              <select id="f-priority"><option value="normal">Normal</option><option value="high">High</option><option value="low">Low</option></select></label>
+            <label class="field"><span class="label">Due</span>
+              <input type="datetime-local" id="f-due"></label>
+            <label class="field"><span class="label">Remind me at</span>
+              <input type="datetime-local" id="f-remind"></label>
+          </div>
+          <label class="field"><span class="label">Tags (comma separated)</span>
+            <input type="text" id="f-tags" placeholder="e.g. garage, iot, errands"></label>
+          <div class="actions">
+            <button class="btn primary" type="submit" id="f-submit">Add task</button>
+            <button class="btn" type="button" id="f-cancel" hidden>Cancel edit</button>
+            <span class="hint" id="f-hint"></span>
+          </div>
+        </form>
+      </section>
+
+      <section aria-label="Tasks" class="col" style="gap:12px">
+        <div class="tabs" role="tablist" id="tabs"></div>
+        <div id="list" class="col" style="gap:16px">
+          <div class="empty"><strong>Loading your tasks</strong>Tasks you or Claude add will appear here.</div>
+        </div>
+      </section>
+    </div>
+
+    <aside class="col">
+      <section class="panel" aria-labelledby="thread-h">
+        <h2 id="thread-h">Notes with Claude</h2>
+        <div class="thread" id="thread"><p class="hint">Leave Claude a note here. Claude answers in this thread when it next checks the board.</p></div>
+        <form class="msgform" id="msgform">
+          <textarea id="m-body" placeholder="Write a note to Claude" maxlength="4000" aria-label="Note to Claude" required></textarea>
+          <div class="actions"><button class="btn primary" type="submit">Send note</button></div>
+        </form>
+      </section>
+
+      <section class="panel proto">
+        <details id="proto">
+          <summary>How Claude works with this board</summary>
+          <p>Every task and note lives in this page's artifact database, so any Claude session on your account can read and update it. Paste the board's link into a Claude chat and ask it to check the board.</p>
+          <p><b>For Claude:</b> use the <code>ArtifactData</code> tool with this artifact's URL. Read <code>tasks</code> and <code>messages</code>; write with <code>set</code> or <code>update</code>. Use ISO&nbsp;8601 times with an offset.</p>
+          <pre>tasks/&lt;id&gt; {
+  title: string,
+  notes: string,
+  assignee: "sir" | "claude",
+  status: "open" | "doing" | "done",
+  priority: "high" | "normal" | "low",
+  due: ISO string | null,
+  remindAt: ISO string | null,
+  reminded: boolean,
+  tags: string[],
+  createdBy: "sir" | "claude",
+  createdAt, updatedAt: ISO string,
+  completedAt: ISO string | null
+}
+
+messages/&lt;id&gt; {
+  author: "sir" | "claude",
+  body: string,
+  taskId: string | null,
+  model: string | null,
+  createdAt: ISO string
+}</pre>
+          <p>Etiquette: pick up tasks assigned to Claude, set <code>status:"doing"</code> while working, then <code>"done"</code> with a note in <code>messages</code> summarising the result.</p>
+        </details>
+      </section>
+    </aside>
+  </div>
+</div>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+const S = { db: null, tasks: [], msgs: [], filter: "open", editing: null, armed: null, loaded: false, readOnly: false };
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const nowISO = () => new Date().toISOString();
+const newId = () => "t" + Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+
+function toLocalInput(iso) {
+  if (!iso) return "";
+  const d = new Date(iso); if (isNaN(d)) return "";
+  const p = (n) => String(n).padStart(2, "0");
+  return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}T${p(d.getHours())}:${p(d.getMinutes())}`;
+}
+const fromLocalInput = (v) => (v ? new Date(v).toISOString() : null);
+
+function fmtWhen(iso) {
+  const d = new Date(iso); if (isNaN(d)) return "";
+  const now = new Date();
+  const day = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const diff = Math.round((day - today) / 864e5);
+  const time = d.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
+  if (diff === 0) return `today ${time}`;
+  if (diff === 1) return `tomorrow ${time}`;
+  if (diff === -1) return `yesterday ${time}`;
+  const opts = { weekday: "short", day: "numeric", month: "short" };
+  if (d.getFullYear() !== now.getFullYear()) opts.year = "numeric";
+  return `${d.toLocaleDateString([], opts)} ${time}`;
+}
+
+let toastTimer;
+function toast(text) {
+  const t = $("toast"); t.textContent = text; t.hidden = false;
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => (t.hidden = true), 2400);
+}
+
+async function write(fn, okText) {
+  if (!S.db) { toast("Not connected to the database"); return false; }
+  try { await fn(); if (okText) toast(okText); return true; }
+  catch (e) {
+    if (e?.code === "invalid_argument") { S.readOnly = true; toast("You can view this board but not change it"); }
+    else if (e?.code === "quota_exceeded") toast("The board is full. Delete some finished tasks first.");
+    else toast("That change did not save. Try again.");
+    return false;
+  }
+}
+const taskRef = (id) => S.db.collection("tasks").doc(id);
+
+/* ---------- derived views ---------- */
+function bucket(t, now) {
+  if (t.status === "done") return "done";
+  if (!t.due) return "someday";
+  const d = new Date(t.due);
+  if (d < now) return "overdue";
+  const eod = new Date(now); eod.setHours(23, 59, 59, 999);
+  if (d <= eod) return "today";
+  const week = new Date(now.getTime() + 7 * 864e5);
+  return d <= week ? "week" : "later";
+}
+const FILTERS = [
+  ["open", "Open", (t) => t.status !== "done"],
+  ["sir", "Mine", (t) => t.status !== "done" && t.assignee !== "claude"],
+  ["claude", "Claude's", (t) => t.status !== "done" && t.assignee === "claude"],
+  ["done", "Done", (t) => t.status === "done"],
+];
+const GROUPS = [["overdue", "Overdue"], ["today", "Today"], ["week", "Next 7 days"], ["later", "Later"], ["someday", "No due date"], ["done", "Completed"]];
+const PRI = { high: 0, normal: 1, low: 2 };
+
+function dueReminders(now) {
+  return S.tasks.filter((t) => t.status !== "done" && t.remindAt && !t.reminded && new Date(t.remindAt) <= now)
+    .sort((a, b) => new Date(a.remindAt) - new Date(b.remindAt));
+}
+
+/* ---------- render ---------- */
+function render() {
+  const now = new Date();
+  const open = S.tasks.filter((t) => t.status !== "done");
+  const overdue = open.filter((t) => bucket(t, now) === "overdue").length;
+  const today = open.filter((t) => bucket(t, now) === "today").length;
+  const forClaude = open.filter((t) => t.assignee === "claude").length;
+  $("stats").innerHTML =
+    `<span class="stat"><b>${open.length}</b> open</span>` +
+    `<span class="stat bad"><b>${overdue}</b> overdue</span>` +
+    `<span class="stat warn"><b>${today}</b> due today</span>` +
+    `<span class="stat claude"><b>${forClaude}</b> with Claude</span>`;
+
+  $("reminders").innerHTML = dueReminders(now).map((t) => `
+    <div class="rem" data-id="${esc(t.id)}">
+      <div class="t">${esc(t.title)}<small>Reminder set for ${esc(fmtWhen(t.remindAt))}${t.due ? " · due " + esc(fmtWhen(t.due)) : ""}</small></div>
+      <div class="actions">
+        <button class="btn sm" data-act="done">Mark done</button>
+        <button class="btn sm" data-act="snooze1h">Snooze 1 hour</button>
+        <button class="btn sm" data-act="snoozeAm">Tomorrow 9:00</button>
+        <button class="btn sm" data-act="dismiss">Dismiss</button>
+      </div>
+    </div>`).join("");
+
+  $("tabs").innerHTML = FILTERS.map(([k, label, fn]) =>
+    `<button class="tab" role="tab" aria-selected="${S.filter === k}" data-filter="${k}">${label}<span class="n">${S.tasks.filter(fn).length}</span></button>`).join("");
+
+  const list = $("list");
+  if (!S.loaded) return;
+  const fn = FILTERS.find((f) => f[0] === S.filter)[2];
+  const shown = S.tasks.filter(fn);
+  if (!shown.length) {
+    const msg = S.tasks.length
+      ? { open: "Nothing open. Enjoy it, Sir.", sir: "Nothing on your plate.", claude: "Claude has nothing assigned. Set a task's assignee to Claude to hand it over.", done: "No completed tasks yet." }[S.filter]
+      : "Add your first task above, or ask Claude to add one to this board.";
+    list.innerHTML = `<div class="empty"><strong>${S.tasks.length ? "All clear" : "No tasks yet"}</strong>${esc(msg)}</div>`;
+    return;
+  }
+  const by = {};
+  for (const t of shown) (by[bucket(t, now)] ||= []).push(t);
+  list.innerHTML = GROUPS.filter(([k]) => by[k]).map(([k, label]) => {
+    const items = by[k].sort(k === "done"
+      ? (a, b) => (b.completedAt || "").localeCompare(a.completedAt || "")
+      : (a, b) => (a.due && b.due ? new Date(a.due) - new Date(b.due) : 0) || (PRI[a.priority] ?? 1) - (PRI[b.priority] ?? 1) || (a.createdAt || "").localeCompare(b.createdAt || ""));
+    const capped = k === "done" ? items.slice(0, 50) : items;
+    return `<div class="group ${k}"><div class="label">${label}<span class="n">${items.length}</span></div>${capped.map((t) => taskHTML(t, now)).join("")}</div>`;
+  }).join("");
+}
+
+function taskHTML(t, now) {
+  const done = t.status === "done";
+  const chips = [];
+  chips.push(`<span class="chip ${t.assignee === "claude" ? "claude" : "sir"}">${t.assignee === "claude" ? "Claude" : "Sir"}</span>`);
+  if (t.status === "doing") chips.push(`<span class="chip doing">In progress</span>`);
+  if (t.due) {
+    const b = bucket(t, now);
+    chips.push(`<span class="chip ${!done && b === "overdue" ? "over" : !done && b === "today" ? "soon" : ""}">due ${esc(fmtWhen(t.due))}</span>`);
+  }
+  if (t.remindAt && !done) chips.push(`<span class="chip">${t.reminded ? "reminded" : "remind"} ${esc(fmtWhen(t.remindAt))}</span>`);
+  if (t.priority === "high") chips.push(`<span class="chip over">high priority</span>`);
+  if (t.priority === "low") chips.push(`<span class="chip">low priority</span>`);
+  for (const tag of t.tags || []) chips.push(`<span class="chip">#${esc(tag)}</span>`);
+  if (t.createdBy === "claude") chips.push(`<span class="chip claude">added by Claude</span>`);
+  if (done && t.completedAt) chips.push(`<span class="chip">done ${esc(fmtWhen(t.completedAt))}</span>`);
+  const armed = S.armed === t.id;
+  return `<article class="task ${done ? "done" : ""} p-${esc(t.priority || "normal")}" data-id="${esc(t.id)}">
+    <input type="checkbox" class="check" id="chk-${esc(t.id)}" data-act="toggle" ${done ? "checked" : ""} aria-label="Mark ${esc(t.title)} ${done ? "not done" : "done"}">
+    <div style="min-width:0"><label class="ttl" for="chk-${esc(t.id)}">${esc(t.title)}</label>${t.notes ? `<div class="notes">${esc(t.notes)}</div>` : ""}<div class="meta">${chips.join("")}</div></div>
+    <div class="tools">
+      <button class="btn sm" data-act="edit">Edit</button>
+      <button class="btn sm danger ${armed ? "armed" : ""}" data-act="delete">${armed ? "Confirm delete" : "Delete"}</button>
+    </div>
+  </article>`;
+}
+
+function renderThread() {
+  const el = $("thread");
+  if (!S.msgs.length) { el.innerHTML = `<p class="hint">Leave Claude a note here. Claude answers in this thread when it next checks the board.</p>`; return; }
+  const titles = Object.fromEntries(S.tasks.map((t) => [t.id, t.title]));
+  el.innerHTML = S.msgs.map((m) => {
+    const who = m.author === "claude" ? "claude" : "sir";
+    return `<div class="msg ${who}"><div class="who"><b>${who === "claude" ? "Claude" : "Sir"}</b><span>${esc(fmtWhen(m.createdAt))}</span></div>
+      ${m.taskId && titles[m.taskId] ? `<div class="hint">re: ${esc(titles[m.taskId])}</div>` : ""}
+      <div class="body">${esc(m.body)}</div></div>`;
+  }).join("");
+  el.scrollTop = el.scrollHeight;
+}
+
+/* ---------- form ---------- */
+function resetForm() {
+  S.editing = null;
+  $("form").reset();
+  $("f-submit").textContent = "Add task";
+  $("f-cancel").hidden = true;
+  $("f-hint").textContent = "";
+  $("compose-h").textContent = "New task";
+}
+function startEdit(t) {
+  S.editing = t.id;
+  $("f-title").value = t.title || "";
+  $("f-notes").value = t.notes || "";
+  $("f-assignee").value = t.assignee === "claude" ? "claude" : "sir";
+  $("f-priority").value = t.priority || "normal";
+  $("f-due").value = toLocalInput(t.due);
+  $("f-remind").value = toLocalInput(t.remindAt);
+  $("f-tags").value = (t.tags || []).join(", ");
+  $("f-submit").textContent = "Save changes";
+  $("f-cancel").hidden = false;
+  $("compose-h").textContent = "Edit task";
+  $("f-title").focus();
+  $("form").scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+$("form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const title = $("f-title").value.trim();
+  if (!title) return;
+  const remindAt = fromLocalInput($("f-remind").value);
+  const body = {
+    title, notes: $("f-notes").value.trim(),
+    assignee: $("f-assignee").value, priority: $("f-priority").value,
+    due: fromLocalInput($("f-due").value), remindAt,
+    tags: $("f-tags").value.split(",").map((s) => s.trim().replace(/^#/, "")).filter(Boolean),
+    updatedAt: nowISO(),
+  };
+  if (S.editing) {
+    const prev = S.tasks.find((t) => t.id === S.editing);
+    if (prev && prev.remindAt !== remindAt) body.reminded = false;
+    const id = S.editing;
+    if (await write(() => taskRef(id).update(body), "Task saved")) resetForm();
+  } else {
+    Object.assign(body, { status: "open", reminded: false, createdBy: "sir", createdAt: nowISO(), completedAt: null });
+    if (await write(() => taskRef(newId()).set(body), "Task added")) resetForm();
+  }
+});
+$("f-cancel").addEventListener("click", resetForm);
+
+$("msgform").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const body = $("m-body").value.trim();
+  if (!body) return;
+  const doc = { author: "sir", body, taskId: null, model: null, createdAt: nowISO() };
+  if (await write(() => S.db.collection("messages").doc("m" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6)).set(doc), "Note sent")) $("m-body").value = "";
+});
+
+/* ---------- actions ---------- */
+$("tabs").addEventListener("click", (e) => {
+  const b = e.target.closest("[data-filter]"); if (!b) return;
+  S.filter = b.dataset.filter;
+  try { localStorage.setItem("dispatch.filter", S.filter); } catch {}
+  render();
+});
+
+async function act(id, a) {
+  const t = S.tasks.find((x) => x.id === id); if (!t) return;
+  const ref = taskRef(id);
+  const ts = nowISO();
+  if (a === "toggle" || a === "done") {
+    const done = a === "done" || t.status !== "done";
+    await write(() => ref.update({ status: done ? "done" : "open", completedAt: done ? ts : null, updatedAt: ts }), done ? "Marked done" : "Reopened");
+  } else if (a === "snooze1h") {
+    await write(() => ref.update({ remindAt: new Date(Date.now() + 36e5).toISOString(), reminded: false, updatedAt: ts }), "Snoozed for 1 hour");
+  } else if (a === "snoozeAm") {
+    const d = new Date(); d.setDate(d.getDate() + 1); d.setHours(9, 0, 0, 0);
+    await write(() => ref.update({ remindAt: d.toISOString(), reminded: false, updatedAt: ts }), "Snoozed until tomorrow 9:00");
+  } else if (a === "dismiss") {
+    await write(() => ref.update({ reminded: true, updatedAt: ts }));
+  } else if (a === "edit") {
+    startEdit(t);
+  } else if (a === "delete") {
+    if (S.armed !== id) { S.armed = id; render(); setTimeout(() => { if (S.armed === id) { S.armed = null; render(); } }, 4000); return; }
+    S.armed = null;
+    if (S.editing === id) resetForm();
+    await write(() => ref.delete(), "Task deleted");
+  }
+}
+document.addEventListener("click", (e) => {
+  const b = e.target.closest("[data-act]"); if (!b || b.type === "checkbox") return;
+  const host = b.closest("[data-id]"); if (host) act(host.dataset.id, b.dataset.act);
+});
+document.addEventListener("change", (e) => {
+  if (e.target.matches?.(".check")) act(e.target.closest("[data-id]").dataset.id, "toggle");
+});
+
+/* ---------- boot ---------- */
+try { const f = localStorage.getItem("dispatch.filter"); if (FILTERS.some((x) => x[0] === f)) S.filter = f; } catch {}
+render();
+setInterval(render, 30000); // re-evaluate due/overdue/reminders; never writes
+
+(async () => {
+  const db = await window.claude?.use?.("db").catch(() => null);
+  if (!db) { $("offline").hidden = false; $("list").innerHTML = `<div class="empty"><strong>Board unavailable</strong>Open this page signed in to claude.ai to load your tasks.</div>`; return; }
+  S.db = db;
+  db.collection("tasks").onSnapshot((snap) => {
+    S.tasks = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+    S.loaded = true; render(); renderThread();
+  }, () => { $("offline").hidden = false; });
+  db.collection("messages").orderBy("createdAt", "asc").limit(300).onSnapshot((snap) => {
+    S.msgs = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+    renderThread();
+  }, () => {});
+})();
+</script>
